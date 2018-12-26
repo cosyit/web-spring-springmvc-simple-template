@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaeehttp://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+
+    <!--  模块1: START -->
+
+    <!-- 以下代码被ContextLoaderListener所需要 .-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:applicationContext.xml</param-value>
+    </context-param>
+
+    <!-- 这是spring框架自己定义的一个listener ,实现了ServletContextListener接口，则说明在初始化的时候，做了一些事情。 -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <!--  模块1: END :fixme*****: 这里做的操作是，在app加载到web.xml 后， 也要来加载以下applicationContext 以创建spring 容器。
+     fixme : 在纯的非web的java项目中，我们不需要走web.xml -> applicationContext.xml 的过程，直接main函数中，创建ctx即可。而web项目的启动先从加载web.xml开始的
+     -->
+
+
+    <!-- 配置springMVC心脏  ... boob boob boob...  -->
+    <servlet>
+        <servlet-name>springDispatcherServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:springmvc.xml</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>springDispatcherServlet</servlet-name>
+        <!--<url-pattern>/*</url-pattern> 在本项目中如果这样写，jsp页面会当成html原样输出到浏览器。-->
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+
+</web-app>
